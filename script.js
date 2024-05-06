@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
 
+
     const sliderItems = document.querySelectorAll('.slider-item');
     const dots = document.querySelectorAll('.slider-dots .dot');
 
