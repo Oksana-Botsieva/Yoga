@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const phoneNumber = document.querySelector('.popup-form__input').value;
         console.log('Номер телефона:', phoneNumber);
     })
-  
+
 
     const hoursElement = document.querySelector('.hours');
     const minutesElement = document.querySelector('.minutes');
@@ -71,28 +71,29 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function updateTimer() {
 
-    const currentDate = new Date();
-    const timeDiff = endDate - currentDate;
+        const currentDate = new Date();
+        const timeDiff = endDate - currentDate;
 
-    let hours = Math.floor(timeDiff / ( 1000 * 60 * 60));
-    let minutes = Math.floor((timeDiff % ( 1000 * 60 * 60)) / ( 1000 * 60));
-    let seconds = Math.floor((timeDiff % ( 1000 * 60)) / 1000);
+        let hours = Math.floor(timeDiff / (1000 * 60 * 60));
+        let minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+        let seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
 
-    hoursElement.textContent = hours < 10 ? '0' + hours : hours;
-    minutesElement.textContent = minutes < 10 ? '0' + minutes : minutes;
-    secondsElement.textContent = seconds < 10 ? '0' + seconds : seconds;
+        hoursElement.textContent = hours < 10 ? '0' + hours : hours;
+        minutesElement.textContent = minutes < 10 ? '0' + minutes : minutes;
+        secondsElement.textContent = seconds < 10 ? '0' + seconds : seconds;
 
-    if ( timeDiff <= 0) {
-        clearInterval(timerInterval);
-        hoursElement.textContent = '00';
-        minutesElement.textContent = '00';
-        secondsElement.textContent = '00';
+        if (timeDiff <= 0) {
+            clearInterval(timerInterval);
+            hoursElement.textContent = '00';
+            minutesElement.textContent = '00';
+            secondsElement.textContent = '00';
+        }
     }
-    }
+
     const timerInterval = setInterval(updateTimer, 1000);
     updateTimer();
-  
-  
+
+
     const tabs = document.querySelectorAll('.info-header-tab');
     const tabContents = document.querySelectorAll('.info-tabcontent');
 
@@ -114,5 +115,31 @@ document.addEventListener('DOMContentLoaded', function () {
             showTabContent(index);
         });
 
-    showTabContent(0);
+        showTabContent(0);
+    })
+
+
+    const person = document.querySelectorAll('.counter-block-input')[0];
+    const days = document.querySelectorAll('.counter-block-input')[1];
+    const place = document.querySelector('#select');
+    const totalValue = document.querySelector('#total');
+
+    function updateTotal() {
+        const numberOfPerson = parseInt(person.value);
+        const numberOfDays = parseInt(days.value);
+        const placeCoeff = parseFloat(place.value);
+
+        if (isNaN(numberOfPerson) || isNaN(numberOfDays)) {
+            return;
+        }
+
+        const total = ((numberOfPerson + numberOfDays) * 10) * placeCoeff;
+        totalValue.innerText = total;
+    }
+
+    person.addEventListener('input', updateTotal);
+    days.addEventListener('input', updateTotal);
+    place.addEventListener('change', updateTotal);
+
+    updateTotal();
 })
