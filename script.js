@@ -1,31 +1,47 @@
 document.addEventListener('DOMContentLoaded', function () {
 
+    // Slider start
 
     const sliderItems = document.querySelectorAll('.slider-item');
     const dots = document.querySelectorAll('.slider-dots .dot');
 
-    let currentSlide = 0;
+    let currentSlide = 2;
 
     function showSlide(index) {
-        sliderItems.forEach(item => {
-            item.style.display = 'none';
-        })
-
+        hideSlides();
         sliderItems[index].style.display = 'block';
 
-        dots.forEach(dot => {
-            dot.classList.remove('dot-active');
-        })
+        deactiveDots();
         dots[index].classList.add('dot-active');
     }
 
+    function hideSlides(){
+        sliderItems.forEach(item => {
+            item.style.display = 'none';
+        })
+    }
+
+    function deactiveDots(){
+        dots.forEach(dot => {
+            dot.classList.remove('dot-active');
+        })
+    }
+
     function prevSlide() {
-        currentSlide = (currentSlide - 1 + sliderItems.length) % sliderItems.length;
+        if(currentSlide === 0){
+            currentSlide = sliderItems.length;
+        }
+        currentSlide = currentSlide - 1;
         showSlide(currentSlide);
     }
 
     function nextSlide() {
-        currentSlide = (currentSlide + 1) % sliderItems.length;
+        if(currentSlide === sliderItems.length - 1){
+            currentSlide = 0;
+            showSlide(currentSlide);
+            return;
+        }
+        currentSlide = currentSlide + 1;
         showSlide(currentSlide);
     }
 
@@ -40,6 +56,8 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     showSlide(currentSlide);
+
+    // Slider end
 
     const moreBtn = document.querySelector('.more');
     const overlay = document.querySelector('.overlay');
@@ -64,11 +82,13 @@ document.addEventListener('DOMContentLoaded', function () {
     })
 
 
+    // Timer start
+
     const hoursElement = document.querySelector('.hours');
     const minutesElement = document.querySelector('.minutes');
     const secondsElement = document.querySelector('.seconds');
 
-    const endDate = new Date('2024-05-08 00:00:00');
+    const endDate = new Date('2024-05-09 00:00:00');
 
     function updateTimer() {
 
@@ -94,6 +114,10 @@ document.addEventListener('DOMContentLoaded', function () {
     const timerInterval = setInterval(updateTimer, 1000);
     updateTimer();
 
+    // Timer end
+
+
+    // Tabs start
 
     const tabs = document.querySelectorAll('.info-header-tab');
     const tabContents = document.querySelectorAll('.info-tabcontent');
@@ -106,41 +130,20 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function showTabContent(tabIndex) {
-        hideAllTabs();
         tabContents[tabIndex].classList.remove('hide');
         tabContents[tabIndex].classList.add('show');
     }
 
     tabs.forEach((tab, index) => {
         tab.addEventListener('click', () => {
+            hideAllTabs();
             showTabContent(index);
         });
+        hideAllTabs();
 
         showTabContent(0);
     })
-
-
-    const person = document.querySelectorAll('.counter-block-input')[0];
-    const days = document.querySelectorAll('.counter-block-input')[1];
-    const place = document.querySelector('#select');
-    const totalValue = document.querySelector('#total');
-
-    function updateTotal() {
-        const numberOfPerson = parseInt(person.value);
-        const numberOfDays = parseInt(days.value);
-        const placeCoeff = parseFloat(place.value);
-
-        if (isNaN(numberOfPerson) || isNaN(numberOfDays)) {
-            return;
-        }
-
-        const total = ((numberOfPerson + numberOfDays) * 10) * placeCoeff;
-        totalValue.innerText = total;
-    }
-
-    person.addEventListener('input', updateTotal);
-    days.addEventListener('input', updateTotal);
-    place.addEventListener('change', updateTotal);
-
-    updateTotal();
 })
+
+
+// Tabs end
