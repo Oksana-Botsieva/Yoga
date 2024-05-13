@@ -143,7 +143,33 @@ document.addEventListener('DOMContentLoaded', function () {
 
         showTabContent(0);
     })
+
+
+    const person = document.querySelectorAll('.counter-block-input')[0];
+    const days = document.querySelectorAll('.counter-block-input')[1];
+    const place = document.querySelector('#select');
+    const totalValue = document.querySelector('#total');
+
+    function updateTotal() {
+        const numberOfPerson = parseInt(person.value);
+        const numberOfDays = parseInt(days.value);
+        const placeCoeff = parseFloat(place.value);
+
+        if (isNaN(numberOfPerson) || isNaN(numberOfDays)) {
+            return;
+        }
+
+        const total = ((numberOfPerson + numberOfDays) * 10) * placeCoeff;
+        totalValue.innerText = total;
+    }
+
+    person.addEventListener('input', updateTotal);
+    days.addEventListener('input', updateTotal);
+    place.addEventListener('change', updateTotal);
+
+    updateTotal();
 })
+
 
 
 // Tabs end
